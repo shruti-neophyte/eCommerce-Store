@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+	<var name="shipping" class="com.caveofprogramming.spring.web.dao.Customer" />
+
+
+	<view-state id="shipping" model="shipping"><!-- id is jsp file -->
+	
+	<!-- will start start.jsp -->
+		<on-entry>
+			<set name="flowScope.fromUser" value="shippingService.getCustomer(currentUser.name)"></set>
+			<set name="flowScope.fromStreet" value="fromUser?.streetname"></set>
+			<set name="flowScope.fromApt" value="fromUser?.aptno"></set>
+			<set name="flowScope.fromCity" value="fromUser?.city"></set>
+			<set name="flowScope.fromCountry" value="fromUser?.country"></set>
+
+
+		</on-entry>
+
+		<transition on="send" to="sendMessage"></transition>
+	</view-state>
+	
+	<action-state id="sendMessage">
+		<evaluate expression="shippingService.sendShipping(shipping)"></evaluate>
+		<transition to="shippingUpdated"></transition>
+	</action-state>
+
+	<view-state id="shippingUpdated">
+	</view-state>
+</flow>
+
+
+
+
+
+
+
+
+
+
+
+
